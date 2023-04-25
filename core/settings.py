@@ -7,6 +7,8 @@ environ.Env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = Path(__file__).parent.parent
 
+sys.path.append(str(PROJECT_ROOT / 'apps'))
+
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 
@@ -19,6 +21,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+INSTALLED_APPS += [
+    'common',
+    'parser',
 ]
 
 MIDDLEWARE = [

@@ -1,3 +1,4 @@
+import time
 from typing import (
     TypeAlias,
     Tuple,
@@ -5,6 +6,7 @@ from typing import (
 )
 from pathlib import Path
 from django.conf import settings
+from parser.models import ResumeData
 
 
 PathStr: TypeAlias = str
@@ -18,17 +20,30 @@ FILE_NAME: str = 'Resume {}.txt'
 NUMBER_OF_RESUME: int = 5
 
 
-class ResumeParser:
-    def run_parser(self) -> None:
-        id: int = 1
+STATUSES = ResumeData.Status
 
+class ResumeParser:
+    def run_parser(self, start_index: int = 1) -> None:
+        id: int = start_index
         while id <= NUMBER_OF_RESUME:
             filename: str = FILE_NAME.format(str(id))
             resume_path = Path(f'{RESUME_DIR}/{filename}')
-            with resume_path.open('r', encoding='utf-8') as resume_file:
-                result: List[NameTimeType] =\
-                    self._parse_file(resume_file.readlines())
-            id += 2
+
+            if not ResumeData.objects.filter(link=resume_path).exists():
+                resume_data = ResumeData(link=resume_path,
+                                        status=STATUSES.DURING)
+                with resume_path.open('r', encoding='utf-8') as resume_file:
+                    result: List[NameTimeType] =\
+                        self._parse_file(resume_file.readlines())
+                    resume_data.data: List[NameTimeType] = result
+                    resume_data.status = STATUSES.READY
+                    resume_data.save()
+                    print(resume_data.data)
+                    time.sleep(5)
+                id += 2
+            else:
+                id += 2
+                continue
 
     def _parse_file(self, lines: List[str]) -> List[NameTimeType]:
         result_list: List[NameTimeType] = []
@@ -36,5 +51,5 @@ class ResumeParser:
             name: str = lines[i].rstrip()
             time: str = lines[i+1].rstrip()
             name_and_time: NameTimeType = (name, time)
-            result_list.append(name_and_time)
+            result_list.append(str(name_and_time))
         return result_list

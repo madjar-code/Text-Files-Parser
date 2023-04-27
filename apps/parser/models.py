@@ -16,13 +16,9 @@ class ResumeData(models.Model):
     # )
 
     class Status(models.TextChoices):
-        STATUS_DIRTY = 'dirty'
-        STATUS_DURING = 'during'
-        STATUS_READY = 'ready'
-
-        DIRTY = STATUS_DIRTY, 'dirty'
-        DURING = STATUS_DURING, 'during'
-        READY = STATUS_READY, 'ready'
+        DIRTY = 'dirty', 'dirty'
+        DURING = 'during', 'during'
+        READY = 'ready', 'ready'
 
     link: str = models.URLField()
     status: str = models.CharField(default=Status.DIRTY,
@@ -32,3 +28,6 @@ class ResumeData(models.Model):
     class Meta:
         verbose_name = 'Data from One Resume'
         verbose_name_plural = 'Data from Different Resume'
+
+    def __str__(self) -> str:
+        return f'{self.link} --- {self.status}'

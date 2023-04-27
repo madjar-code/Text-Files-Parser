@@ -15,6 +15,7 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,7 +70,7 @@ AUTH_PASSWORD_VALIDATORS = []
 
 LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'Europe/Kishinev'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

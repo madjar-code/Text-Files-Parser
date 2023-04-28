@@ -1,7 +1,4 @@
-from typing import List
 from django.db import models
-from .fields import NameTimeListField
-from .types import NameTimeType
 
 
 class ResumeData(models.Model):     
@@ -22,16 +19,16 @@ class ResumeData(models.Model):
     
     # status: str = models.CharField(default=Status.DIRTY,
     #                                choices=Status.choices, max_length=255)
-
-    link: str = models.URLField()
     # data: List[NameTimeType] = NameTimeListField()
-
+    number: str = models.PositiveBigIntegerField(
+        blank=True, null=True)
+    link: str = models.URLField()
     class Meta:
         verbose_name = 'Data from One Resume'
         verbose_name_plural = 'Data from Different Resume'
 
     def __str__(self) -> str:
-        return f'{self.link}'
+        return f'{self.id}'
 
 
 class PositionTime(models.Model):
@@ -42,8 +39,7 @@ class PositionTime(models.Model):
 
     class Meta:
         verbose_name = 'Position Data'
-        verbose_name_plural =  'Position Data'
-    
+        verbose_name_plural = 'Position Data'
+
     def __str__(self) -> str:
         return f'{self.position} - {self.time}'
-    

@@ -1,4 +1,3 @@
-import time
 from typing import (
     TypeAlias,
     Tuple,
@@ -19,6 +18,7 @@ NameTimeType: TypeAlias =\
 RESUME_DIR: PathStr = f'{settings.BASE_DIR}/files/'
 FILE_NAME: str = 'Resume {}.txt'
 NUMBER_OF_RESUME: int = 5
+LINE_STEP: int = 3
 RESUME_STEP: int = 2
 
 
@@ -40,7 +40,7 @@ class ResumeParser:
                 continue
 
     def _create_data(self, resume: ResumeData, lines: List[str]) -> None:
-        for i in range(0, len(lines), 3):
+        for i in range(0, len(lines), LINE_STEP):
             name, time = self._parse_string(lines=lines, str_id=i)
             PositionTime.objects.create(resume=resume, position=name, time=time)  
 

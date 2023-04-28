@@ -40,9 +40,13 @@ class ResumeParser:
                 continue
 
     def _create_data(self, resume: ResumeData, lines: List[str]) -> None:
+        local_order: int = 0
         for i in range(0, len(lines), LINE_STEP):
+            local_order += 1
             name, time = self._parse_string(lines=lines, str_id=i)
-            PositionTime.objects.create(resume=resume, position=name, time=time)  
+            PositionTime.objects.create(
+                resume=resume, position=name, time=time,
+                local_order=local_order)  
 
     def _parse_string(self, lines: List[str], str_id: int) -> NameTimeType:
         name: str = lines[str_id].rstrip()

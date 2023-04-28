@@ -34,6 +34,7 @@ class ResumeData(models.Model):
 class PositionTime(models.Model):
     resume = models.ForeignKey(
         to=ResumeData, on_delete=models.CASCADE)
+    local_order = models.PositiveSmallIntegerField()
     position = models.CharField(max_length=1000)
     time = models.CharField(max_length=255)
 

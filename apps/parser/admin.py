@@ -19,6 +19,7 @@ class PositionTimeAdmin(admin.ModelAdmin):
     )
     list_display = (
         'id',
+        'local_order',
         'position',
         'time',
         'resume',

@@ -1,5 +1,4 @@
-import ast
-from typing import Optional, List
+
 from django.db import models
 from .types import *
 
